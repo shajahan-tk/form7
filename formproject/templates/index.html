@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!doctype html>
+    <html lang="en">
+
+    <head>
+        <title>Title</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+
+<body>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+</body>
+
+</html>
+</head>
+<style>
+    body {
+        background-color: rgb(201, 211, 230);
+    }
+
+    .mainform {
+        position: relative;
+        top: 80px;
+        padding-left: 450px;
+        display: flex;
+        gap: 20px;
+    }
+
+    input {
+        width: 250px;
+        border: unset;
+        height: 35px;
+    }
+
+    label {
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    input[name=submit] {
+        position: relative;
+        width: 150px;
+        height: fit-content;
+
+    }
+
+    table {
+        border: 2px solid black;
+        background-color: azure;
+        position: relative;
+        top: 180px;
+        text-align: center;
+
+
+    }
+
+    .message-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .message {
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+
+    .error {
+        background-color: #ffcccc;
+        border-color: #ff0000;
+    }
+
+    .success {
+        background-color: #ccffcc;
+        border-color: #00ff00;
+    }
+
+    .pagination {
+        position: relative;
+        top: 90px;
+        padding-left: 65%;
+
+    }
+
+    .filter {
+        position: relative;
+        top: 170px;
+        padding-left: 74%;
+        display: flex;
+        gap: 10px;
+
+    }
+
+    h6 {
+        position: relative;
+        top: 170px;
+        padding-left: 74%;
+        display: flex;
+
+    }
+
+    .btn1 {
+        position: relative;
+        padding-left: 91%;
+        bottom: 30px;
+    }
+</style>
+
+<body>
+    <form action="form" method="POST">
+
+        <div class="mainform">
+            {% csrf_token %}
+            <input type="text" placeholder="User Name" name="username" required>
+            <input type="text" placeholder="Clinic Id" name="clinicid" required>
+            <input type="text" placeholder="Description" name="domainname" required>
+            <button name="submit" class="btn btn-primary">Submit</button>
+
+        </div>
+    </form>
+
+    <!-- <form action="filter" method="POST">
+        
+        <div class="filter">
+            {% csrf_token %}
+            <input type="text" placeholder="User Name" name="username" >
+            <input type="text" placeholder="Clinic Id" name="clinicid" >
+            <button name="submit" class="btn btn-primary">Search</button>
+           
+        </div>
+        </form> -->
+
+    <div style="padding-inline: 30px;">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Si No</th>
+                    <th>User Name</th>
+                    <th>Clinic Id</th>
+                    <th>Description</th>
+                    <th>Delete</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in show %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.username}}</td>
+                    <td>{{i.clinicid}}</td>
+                    <td>{{i.domainname}}</td>
+                    <td>
+                        <a href="{% url 'delete' id=i.id %}">
+                            <i class="fa-solid fa-trash"></i></a>
+                    </td>
+                    <td>
+                        <a href="{% url 'edit' id=i.id %}">
+                            <i class="fa-solid fa-pen-to-square"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination">
+        <div class="pagination">
+            <span class="step-links">
+                {% if show.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ show.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ show.number }} of {{ show.paginator.num_pages }}.
+                </span>
+
+                {% if show.has_next %}
+                <a href="?page={{ show.next_page_number }}">Next</a>
+                <a href="?page={{ show.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+     
+
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                setTimeout(function () {
+                    var messages = document.querySelectorAll('.message');
+                    messages.forEach(function (message) {
+                        message.style.display = 'none';
+                    });
+                }, 5000); // Close messages after 5 seconds (adjust as needed)
+            });
+        </script>
+</body>
+
+</html>
