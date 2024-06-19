@@ -129,24 +129,12 @@
 
         <div class="mainform">
             {% csrf_token %}
-            <input type="text" placeholder="User Name" name="username" required>
-            <input type="text" placeholder="Clinic Id" name="clinicid" required>
-            <input type="text" placeholder="Description" name="domainname" required>
+            <input type="text" placeholder="User Name" name="username" value="{{edit1.username}}" required>
+            <input type="text" placeholder="Description" name="domainname" value="{{edit1.domainname}}" required>
             <button name="submit" class="btn btn-primary">Submit</button>
 
         </div>
     </form>
-
-    <!-- <form action="filter" method="POST">
-        
-        <div class="filter">
-            {% csrf_token %}
-            <input type="text" placeholder="User Name" name="username" >
-            <input type="text" placeholder="Clinic Id" name="clinicid" >
-            <button name="submit" class="btn btn-primary">Search</button>
-           
-        </div>
-        </form> -->
 
     <div style="padding-inline: 30px;">
         <table class="table table-bordered">
@@ -154,7 +142,6 @@
                 <tr>
                     <th>Si No</th>
                     <th>User Name</th>
-                    <th>Clinic Id</th>
                     <th>Description</th>
                     <th>Delete</th>
                     <th>Edit</th>
@@ -165,7 +152,6 @@
                 <tr>
                     <td>{{forloop.counter}}</td>
                     <td>{{i.username}}</td>
-                    <td>{{i.clinicid}}</td>
                     <td>{{i.domainname}}</td>
                     <td>
                         <a href="{% url 'delete' id=i.id %}">
@@ -180,38 +166,6 @@
             </tbody>
         </table>
     </div>
-    <div class="pagination">
-        <div class="pagination">
-            <span class="step-links">
-                {% if show.has_previous %}
-                <a href="?page=1">&laquo; First</a>
-                <a href="?page={{ show.previous_page_number }}">Previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ show.number }} of {{ show.paginator.num_pages }}.
-                </span>
-
-                {% if show.has_next %}
-                <a href="?page={{ show.next_page_number }}">Next</a>
-                <a href="?page={{ show.paginator.num_pages }}">Last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
-     
-
-
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                setTimeout(function () {
-                    var messages = document.querySelectorAll('.message');
-                    messages.forEach(function (message) {
-                        message.style.display = 'none';
-                    });
-                }, 5000); // Close messages after 5 seconds (adjust as needed)
-            });
-        </script>
 </body>
 
 </html>
